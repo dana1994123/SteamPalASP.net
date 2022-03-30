@@ -71,6 +71,9 @@ namespace WebApplication3
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
 

@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,14 +33,28 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginModel login)
         {
+
             IActionResult result = Unauthorized();
+           
             var user = await AuthenticateUser(login);
+
             if(user != null)
             {
                 var tokenString = GenerateJSONWebToken(user);
                 result = Ok(new { token = tokenString });
             }
+           
             return result;
+        }
+
+        private Task AuthenticateUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        private object User()
+        {
+            throw new NotImplementedException();
         }
 
         private object GenerateJSONWebToken(User user)
@@ -54,12 +64,14 @@ namespace WebApplication3.Controllers
             var claimsIdentity = new[]
             {
                 new Claim("Name" , user.Email),
+
+                //just for now then we can edit it and add what are the attributes
                 new Claim("TestClaim" , "Any thing you want")
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                _config["Jwt:Issuer"],
                claims : claimsIdentity,
-               expires : DateTime.Now.AddMonths(4),
+               expires : DateTime.Now.AddHours(1),
                signingCredentials: credentials
                );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -71,6 +83,8 @@ namespace WebApplication3.Controllers
             if (result.Succeeded)
             {
                 var userInfo = await _userManager.FindByEmailAsync(login.Email);
+                return userInfo; 
+                
             }
             return null;
         }
