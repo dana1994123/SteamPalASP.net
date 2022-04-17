@@ -20,28 +20,21 @@ namespace WebApplication3.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{steamid/games}")]
-        public async Task<IActionResult> GetGames(string steamid)
-        {
-            try
-            {
-                var person = await _logger.Persons.FindAsync(new Guid(id));
-                var personDto = new 
-                {
-                    Id = person.Id,
-                    FullName = $"{person.FirstName} {person.LastName}"
-                };
-                var response = new Response<PersonDTO>(personDto);
+        // [HttpGet("{steamid/games}")]
+        // public async Task<IActionResult> GetGames(string steamid)
+        // {
+        //     try
+        //     {
+            
 
+        //         return Ok(response);
+        //     }
+        //     catch (System.Exception)
+        //     {
+        //         return BadRequest();
+        //     }
 
-                return Ok(response);
-            }
-            catch (System.Exception)
-            {
-                return BadRequest();
-            }
-
-        }
+        // }
 
         public IActionResult Index()
         {
