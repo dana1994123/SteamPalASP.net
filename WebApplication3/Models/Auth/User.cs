@@ -9,6 +9,7 @@ namespace WebApplication3.Models.Auth
     public class User : IdentityUser<Guid>
 
     {
+        public List<Game> Games { get; set; }
 
     }
 }

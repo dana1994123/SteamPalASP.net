@@ -9,6 +9,8 @@ using WebApplication3.Models;
 
 namespace WebApplication3.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,6 +18,29 @@ namespace WebApplication3.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        [HttpGet("{steamid/games}")]
+        public async Task<IActionResult> GetGames(string steamid)
+        {
+            try
+            {
+                var person = await _logger.Persons.FindAsync(new Guid(id));
+                var personDto = new 
+                {
+                    Id = person.Id,
+                    FullName = $"{person.FirstName} {person.LastName}"
+                };
+                var response = new Response<PersonDTO>(personDto);
+
+
+                return Ok(response);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+
         }
 
         public IActionResult Index()
@@ -35,3 +60,4 @@ namespace WebApplication3.Controllers
         }
     }
 }
+
